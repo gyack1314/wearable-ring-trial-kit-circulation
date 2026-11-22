@@ -2,7 +2,7 @@
 
 所有人物、家庭、设备、供应商和交易均为本地合成资料。金额使用整数分，时长字段的单位写在列说明中。时间戳含时区，起止区间均为左闭右开。空值表示未观察或未提供，数值零保留其真实含义。
 
-allocation 表示拿到试戴机会，wear 没有开始时间表示未佩戴，discomfort 表示因不适提前结束。试戴评分是原始观察，不是可接受尺寸答案。inspection 是后续检查事实，可以与实物主档申报成色不同。
+试戴为舒适体验研究。材质对照为独立原始观察，不是偏好答案。rounds记录外部已接受安排，kit_events是后来发生的实物与退出事实。地区Z1到Z3之间按cross_region运输，起止时间均为UTC。新研究方法需说明早退、顺序残留及对照支持范围。
 
 ## people.csv
 
@@ -54,46 +54,46 @@ allocation 表示拿到试戴机会，wear 没有开始时间表示未佩戴，d
 - `metal_comfort` 表示成品舒适度，类型为 int。
 - `metal_contact` 表示成品传感器接触比例，类型为 float。
 - `at` 表示对照时间，类型为 datetime。
-## rings.csv
+## kits.csv
 
-实物戒指现状。第一列是物理记录的唯一键。
+完整试戴套件。第一列是物理记录的唯一键。
 
-- `ring` 表示实物，类型为 str。
-- `owner` 表示持有人，类型为 str。
-- `size` 表示尺寸，类型为 int。
+- `kit` 表示套件，类型为 str。
 - `material` 表示材质，类型为 str。
-- `grade` 表示成色，类型为 str。
-- `available` 表示最早可交付，类型为 datetime。
-- `recall` 表示召回标志，类型为 int。
-- `value_cents` 表示声明价值，类型为 int。
-## sales.csv
+- `sizes` 表示完整套件包含的尺寸集合，类型为 str。
+- `location` 表示当前位置，类型为 str。
+- `ready` 表示原定可发出时间，类型为 datetime。
+## participation_windows.csv
 
-已售实物与保修承诺。第一列是物理记录的唯一键。
+本人愿意参与的条件。第一列是物理记录的唯一键。
 
-- `sale` 表示销售，类型为 str。
-- `person` 表示用户，类型为 str。
-- `ring` 表示实物，类型为 str。
-- `delivered` 表示原交付，类型为 datetime。
-- `warranty_end` 表示原保修到期，类型为 datetime。
-- `paid_cents` 表示已付，类型为 int。
-## requests.csv
+- `record` 表示条件，类型为 str。
+- `person` 表示参与者，类型为 str。
+- `start` 表示可开始时间，类型为 datetime。
+- `end` 表示最迟结束时间，类型为 datetime。
+- `region` 表示所在地区，类型为 str。
+- `rejected_sizes` 表示本人明确不愿再试的尺寸集合，类型为 str，允许空值。
+- `max_rounds` 表示接受总轮次，类型为 int。
+## rounds.csv
 
-换型来源意向。第一列是物理记录的唯一键。
+来源已经接受的试戴安排。第一列是物理记录的唯一键。
 
-- `request` 表示申请，类型为 str。
-- `person` 表示用户，类型为 str。
-- `offered_ring` 表示交回实物，类型为 str。
-- `max_extra_cents` 表示接受补价上限，类型为 int。
-- `wait_days` 表示可等天数，类型为 int。
-- `requested` 表示申请时间，类型为 datetime。
-- `status` 表示同意状态，类型为 str。
-## inspections.csv
+- `round` 表示轮次，类型为 str。
+- `person` 表示参与者，类型为 str。
+- `kit` 表示套件，类型为 str。
+- `start` 表示试戴开始，类型为 datetime。
+- `end` 表示试戴结束，类型为 datetime。
+- `sequence` 表示已接受尺寸顺序，类型为 str。
+- `status` 表示来源状态，类型为 str。
+## kit_events.csv
 
-回收点的实物检查。第一列是物理记录的唯一键。
+退出、回收和完整性检查事实。第一列是物理记录的唯一键。
 
-- `inspection` 表示检查，类型为 str。
-- `ring` 表示实物，类型为 str。
-- `grade` 表示实查成色，类型为 str。
-- `received` 表示检查时间，类型为 datetime。
+- `record` 表示事件，类型为 str。
+- `kit` 表示套件，类型为 str。
+- `round` 表示试戴轮次，类型为 str。
+- `at` 表示发生，类型为 datetime。
+- `kind` 表示事件类型，类型为 str。
+- `present_sizes` 表示回收时实际包含尺寸，类型为 str，允许空值。
 
 数值条款、可调整范围及业务枚举见 data/terms.json。数据契约定义来源记录和已存在的协议，分析方法及内部实现由项目使用者按业务需求选择。

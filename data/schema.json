@@ -223,26 +223,14 @@
         "person": "people.person"
       }
     },
-    "rings": {
-      "description": "实物戒指现状",
+    "kits": {
+      "description": "完整试戴套件",
       "columns": [
         {
-          "name": "ring",
+          "name": "kit",
           "type": "str",
           "nullable": false,
-          "description": "实物"
-        },
-        {
-          "name": "owner",
-          "type": "str",
-          "nullable": false,
-          "description": "持有人"
-        },
-        {
-          "name": "size",
-          "type": "int",
-          "nullable": false,
-          "description": "尺寸"
+          "description": "套件"
         },
         {
           "name": "material",
@@ -251,162 +239,174 @@
           "description": "材质"
         },
         {
-          "name": "grade",
+          "name": "sizes",
           "type": "str",
           "nullable": false,
-          "description": "成色"
+          "description": "完整套件包含的尺寸集合"
         },
         {
-          "name": "available",
+          "name": "location",
+          "type": "str",
+          "nullable": false,
+          "description": "当前位置"
+        },
+        {
+          "name": "ready",
           "type": "datetime",
           "nullable": false,
-          "description": "最早可交付"
-        },
-        {
-          "name": "recall",
-          "type": "int",
-          "nullable": false,
-          "description": "召回标志"
-        },
-        {
-          "name": "value_cents",
-          "type": "int",
-          "nullable": false,
-          "description": "声明价值"
+          "description": "原定可发出时间"
         }
       ],
-      "primary_key": "ring",
+      "primary_key": "kit",
       "references": {}
     },
-    "sales": {
-      "description": "已售实物与保修承诺",
+    "participation_windows": {
+      "description": "本人愿意参与的条件",
       "columns": [
         {
-          "name": "sale",
+          "name": "record",
           "type": "str",
           "nullable": false,
-          "description": "销售"
+          "description": "条件"
         },
         {
           "name": "person",
           "type": "str",
           "nullable": false,
-          "description": "用户"
+          "description": "参与者"
         },
         {
-          "name": "ring",
+          "name": "start",
+          "type": "datetime",
+          "nullable": false,
+          "description": "可开始时间"
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "最迟结束时间"
+        },
+        {
+          "name": "region",
           "type": "str",
           "nullable": false,
-          "description": "实物"
+          "description": "所在地区"
         },
         {
-          "name": "delivered",
-          "type": "datetime",
-          "nullable": false,
-          "description": "原交付"
+          "name": "rejected_sizes",
+          "type": "str",
+          "nullable": true,
+          "description": "本人明确不愿再试的尺寸集合"
         },
         {
-          "name": "warranty_end",
-          "type": "datetime",
-          "nullable": false,
-          "description": "原保修到期"
-        },
-        {
-          "name": "paid_cents",
+          "name": "max_rounds",
           "type": "int",
           "nullable": false,
-          "description": "已付"
+          "description": "接受总轮次"
         }
       ],
-      "primary_key": "sale",
+      "primary_key": "record",
       "references": {
-        "person": "people.person",
-        "ring": "rings.ring"
+        "person": "people.person"
       }
     },
-    "requests": {
-      "description": "换型来源意向",
+    "rounds": {
+      "description": "来源已经接受的试戴安排",
       "columns": [
         {
-          "name": "request",
+          "name": "round",
           "type": "str",
           "nullable": false,
-          "description": "申请"
+          "description": "轮次"
         },
         {
           "name": "person",
           "type": "str",
           "nullable": false,
-          "description": "用户"
+          "description": "参与者"
         },
         {
-          "name": "offered_ring",
+          "name": "kit",
           "type": "str",
           "nullable": false,
-          "description": "交回实物"
+          "description": "套件"
         },
         {
-          "name": "max_extra_cents",
-          "type": "int",
-          "nullable": false,
-          "description": "接受补价上限"
-        },
-        {
-          "name": "wait_days",
-          "type": "int",
-          "nullable": false,
-          "description": "可等天数"
-        },
-        {
-          "name": "requested",
+          "name": "start",
           "type": "datetime",
           "nullable": false,
-          "description": "申请时间"
+          "description": "试戴开始"
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "试戴结束"
+        },
+        {
+          "name": "sequence",
+          "type": "str",
+          "nullable": false,
+          "description": "已接受尺寸顺序"
         },
         {
           "name": "status",
           "type": "str",
           "nullable": false,
-          "description": "同意状态"
+          "description": "来源状态"
         }
       ],
-      "primary_key": "request",
+      "primary_key": "round",
       "references": {
         "person": "people.person",
-        "offered_ring": "rings.ring"
+        "kit": "kits.kit"
       }
     },
-    "inspections": {
-      "description": "回收点的实物检查",
+    "kit_events": {
+      "description": "退出、回收和完整性检查事实",
       "columns": [
         {
-          "name": "inspection",
+          "name": "record",
           "type": "str",
           "nullable": false,
-          "description": "检查"
+          "description": "事件"
         },
         {
-          "name": "ring",
+          "name": "kit",
           "type": "str",
           "nullable": false,
-          "description": "实物"
+          "description": "套件"
         },
         {
-          "name": "grade",
+          "name": "round",
           "type": "str",
           "nullable": false,
-          "description": "实查成色"
+          "description": "试戴轮次"
         },
         {
-          "name": "received",
+          "name": "at",
           "type": "datetime",
           "nullable": false,
-          "description": "检查时间"
+          "description": "发生"
+        },
+        {
+          "name": "kind",
+          "type": "str",
+          "nullable": false,
+          "description": "事件类型"
+        },
+        {
+          "name": "present_sizes",
+          "type": "str",
+          "nullable": true,
+          "description": "回收时实际包含尺寸"
         }
       ],
-      "primary_key": "inspection",
+      "primary_key": "record",
       "references": {
-        "ring": "rings.ring"
+        "kit": "kits.kit",
+        "round": "rounds.round"
       }
     }
   }
