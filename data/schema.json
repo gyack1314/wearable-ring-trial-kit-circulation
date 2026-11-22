@@ -1,0 +1,413 @@
+{
+  "tables": {
+    "people": {
+      "description": "人员主档",
+      "columns": [
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "人员编号"
+        },
+        {
+          "name": "household",
+          "type": "str",
+          "nullable": false,
+          "description": "登记家庭编号"
+        },
+        {
+          "name": "segment",
+          "type": "str",
+          "nullable": false,
+          "description": "长期客群"
+        },
+        {
+          "name": "home_zone",
+          "type": "str",
+          "nullable": false,
+          "description": "常居时区"
+        }
+      ],
+      "primary_key": "person",
+      "references": {}
+    },
+    "allocations": {
+      "description": "各人拿到试戴环的顺序与机会",
+      "columns": [
+        {
+          "name": "allocation",
+          "type": "str",
+          "nullable": false,
+          "description": "分配"
+        },
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "试戴者"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "nullable": false,
+          "description": "尺寸号"
+        },
+        {
+          "name": "material",
+          "type": "str",
+          "nullable": false,
+          "description": "材质"
+        },
+        {
+          "name": "sequence",
+          "type": "int",
+          "nullable": false,
+          "description": "试戴顺序"
+        },
+        {
+          "name": "offered",
+          "type": "datetime",
+          "nullable": false,
+          "description": "交给时间"
+        },
+        {
+          "name": "planned_hours",
+          "type": "int",
+          "nullable": false,
+          "description": "计划时长"
+        }
+      ],
+      "primary_key": "allocation",
+      "references": {
+        "person": "people.person"
+      }
+    },
+    "wear": {
+      "description": "实际试戴和退出",
+      "columns": [
+        {
+          "name": "record",
+          "type": "str",
+          "nullable": false,
+          "description": "记录"
+        },
+        {
+          "name": "allocation",
+          "type": "str",
+          "nullable": false,
+          "description": "分配"
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "nullable": true,
+          "description": "佩戴开始"
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "nullable": true,
+          "description": "佩戴结束"
+        },
+        {
+          "name": "stop_reason",
+          "type": "str",
+          "nullable": false,
+          "description": "结束原因"
+        },
+        {
+          "name": "contact",
+          "type": "float",
+          "nullable": true,
+          "description": "传感器接触比例"
+        }
+      ],
+      "primary_key": "record",
+      "references": {
+        "allocation": "allocations.allocation"
+      }
+    },
+    "feedback": {
+      "description": "分时段反馈",
+      "columns": [
+        {
+          "name": "record",
+          "type": "str",
+          "nullable": false,
+          "description": "反馈"
+        },
+        {
+          "name": "allocation",
+          "type": "str",
+          "nullable": false,
+          "description": "分配"
+        },
+        {
+          "name": "period",
+          "type": "str",
+          "nullable": false,
+          "description": "日间或夜间"
+        },
+        {
+          "name": "comfort",
+          "type": "int",
+          "nullable": true,
+          "description": "舒适度1到5"
+        },
+        {
+          "name": "tightness",
+          "type": "int",
+          "nullable": true,
+          "description": "松紧负2到2"
+        },
+        {
+          "name": "received",
+          "type": "datetime",
+          "nullable": false,
+          "description": "收到"
+        }
+      ],
+      "primary_key": "record",
+      "references": {
+        "allocation": "allocations.allocation"
+      }
+    },
+    "material_checks": {
+      "description": "同一人同尺寸的试戴环与成品材质对照",
+      "columns": [
+        {
+          "name": "record",
+          "type": "str",
+          "nullable": false,
+          "description": "对照记录"
+        },
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "用户"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "nullable": false,
+          "description": "尺寸"
+        },
+        {
+          "name": "resin_comfort",
+          "type": "int",
+          "nullable": false,
+          "description": "试戴环舒适度"
+        },
+        {
+          "name": "metal_comfort",
+          "type": "int",
+          "nullable": false,
+          "description": "成品舒适度"
+        },
+        {
+          "name": "metal_contact",
+          "type": "float",
+          "nullable": false,
+          "description": "成品传感器接触比例"
+        },
+        {
+          "name": "at",
+          "type": "datetime",
+          "nullable": false,
+          "description": "对照时间"
+        }
+      ],
+      "primary_key": "record",
+      "references": {
+        "person": "people.person"
+      }
+    },
+    "rings": {
+      "description": "实物戒指现状",
+      "columns": [
+        {
+          "name": "ring",
+          "type": "str",
+          "nullable": false,
+          "description": "实物"
+        },
+        {
+          "name": "owner",
+          "type": "str",
+          "nullable": false,
+          "description": "持有人"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "nullable": false,
+          "description": "尺寸"
+        },
+        {
+          "name": "material",
+          "type": "str",
+          "nullable": false,
+          "description": "材质"
+        },
+        {
+          "name": "grade",
+          "type": "str",
+          "nullable": false,
+          "description": "成色"
+        },
+        {
+          "name": "available",
+          "type": "datetime",
+          "nullable": false,
+          "description": "最早可交付"
+        },
+        {
+          "name": "recall",
+          "type": "int",
+          "nullable": false,
+          "description": "召回标志"
+        },
+        {
+          "name": "value_cents",
+          "type": "int",
+          "nullable": false,
+          "description": "声明价值"
+        }
+      ],
+      "primary_key": "ring",
+      "references": {}
+    },
+    "sales": {
+      "description": "已售实物与保修承诺",
+      "columns": [
+        {
+          "name": "sale",
+          "type": "str",
+          "nullable": false,
+          "description": "销售"
+        },
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "用户"
+        },
+        {
+          "name": "ring",
+          "type": "str",
+          "nullable": false,
+          "description": "实物"
+        },
+        {
+          "name": "delivered",
+          "type": "datetime",
+          "nullable": false,
+          "description": "原交付"
+        },
+        {
+          "name": "warranty_end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "原保修到期"
+        },
+        {
+          "name": "paid_cents",
+          "type": "int",
+          "nullable": false,
+          "description": "已付"
+        }
+      ],
+      "primary_key": "sale",
+      "references": {
+        "person": "people.person",
+        "ring": "rings.ring"
+      }
+    },
+    "requests": {
+      "description": "换型来源意向",
+      "columns": [
+        {
+          "name": "request",
+          "type": "str",
+          "nullable": false,
+          "description": "申请"
+        },
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "用户"
+        },
+        {
+          "name": "offered_ring",
+          "type": "str",
+          "nullable": false,
+          "description": "交回实物"
+        },
+        {
+          "name": "max_extra_cents",
+          "type": "int",
+          "nullable": false,
+          "description": "接受补价上限"
+        },
+        {
+          "name": "wait_days",
+          "type": "int",
+          "nullable": false,
+          "description": "可等天数"
+        },
+        {
+          "name": "requested",
+          "type": "datetime",
+          "nullable": false,
+          "description": "申请时间"
+        },
+        {
+          "name": "status",
+          "type": "str",
+          "nullable": false,
+          "description": "同意状态"
+        }
+      ],
+      "primary_key": "request",
+      "references": {
+        "person": "people.person",
+        "offered_ring": "rings.ring"
+      }
+    },
+    "inspections": {
+      "description": "回收点的实物检查",
+      "columns": [
+        {
+          "name": "inspection",
+          "type": "str",
+          "nullable": false,
+          "description": "检查"
+        },
+        {
+          "name": "ring",
+          "type": "str",
+          "nullable": false,
+          "description": "实物"
+        },
+        {
+          "name": "grade",
+          "type": "str",
+          "nullable": false,
+          "description": "实查成色"
+        },
+        {
+          "name": "received",
+          "type": "datetime",
+          "nullable": false,
+          "description": "检查时间"
+        }
+      ],
+      "primary_key": "inspection",
+      "references": {
+        "ring": "rings.ring"
+      }
+    }
+  }
+}

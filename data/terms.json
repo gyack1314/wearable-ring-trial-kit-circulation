@@ -1,0 +1,21 @@
+{
+  "fit": {
+    "minimum_hours_for_complete": 24,
+    "minimum_contact": 0.7,
+    "acceptable_comfort": 3,
+    "transfer": "试戴环为resin，成品为metal，未取得相应材质对照时必须明确外推限制"
+  },
+  "exchange": {
+    "cleaning_hours": 12,
+    "shipping_each_cents": 1800,
+    "grade_value_fraction": {
+      "new": 1.0,
+      "a": 0.9,
+      "b": 0.8,
+      "c": 0.6
+    },
+    "cost": "补价为收到实物价值减交回实物核定价值，运费由提出换型者承担，不足一分向上取整",
+    "warranty": "换型沿用原销售保修到期；新品商家补货按交付日起一年；互换均沿用接收人的原到期"
+  },
+  "consent": "实物、费用、等待期和尺寸接受集合改变需重新同意，同意前试算不占用；同一实物仅能交付一次"
+}
